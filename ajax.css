@@ -1,0 +1,67 @@
+
+div 
+{
+}
+
+#main-div
+{
+display:inline-block;
+}
+
+#viewport, #manager
+{
+	float: left;
+	margin: auto;
+}
+
+.color
+{
+	width:100px;
+	height:50px;
+}
+
+.blue{
+	background:#0f0;
+}
+
+#viewport
+{
+	width: 1200px;
+	height:800px;
+}
+
+#can
+{
+	border:1px solid orange;
+}
+
+#manager
+{
+	width: 200px;
+	height:300px;
+	padding: 0 0 0 5px;
+
+}
+
+input[type="radio"]{
+  margin: 0 2px 0 15px;
+}
+
+#slider{
+  margin: 0px 0px 0 20px;
+	width: 200px;
+}
+
+#info h2 {text-transform: uppercase; margin-bottom:0px; margin-top:3px;}
+#by{ font-style: italic; font-weight: bold; font-size: 22px; color: #555555; }
+#auteur{ font-style: italic; font-size: 20px; color: #555555; }
+
+#tools{
+    vertical-align: middle;
+   display: flex;
+}
+
+#obj-list
+{
+	width: 200px;
+}

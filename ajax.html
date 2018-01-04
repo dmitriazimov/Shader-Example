@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    
+    <script src="gl-matrix.js"></script>
+    <script src="ajax.js"></script>
+    <script id="vs-src" type="not-js">
+		precision mediump float;
+
+		varying vec3 hitPos;
+		varying vec3 N;
+		
+		attribute vec3 position;
+		attribute vec3 normal;
+		
+		uniform mat4 mMatrix;
+		uniform mat4 nMatrix;
+		uniform mat4 pMatrix;
+		uniform mat4 vMatrix;
+
+		void main() {
+			hitPos = position;
+			gl_Position = pMatrix * vMatrix * mMatrix * vec4(position, 1.0);
+			N = mat3(nMatrix) * vec3(normal);
+		}
+			</script>
+
+    <script id="fs-src" type="not-js">
+		precision mediump float;
+
+		uniform vec3 camPos;
+		uniform vec3 lightPosition;
+		uniform vec4 lightColor;
+		uniform vec4 Kamb, Kdif, Kspec;
+		
+		varying vec3 hitPos;
+		varying vec3 N;
+		
+		uniform float shininess;
+
+		void main() 
+		{
+			vec4 Diff = Kdif*lightColor*max( 0.0, dot(N,vec3(normalize(lightPosition-hitPos))) );
+			vec3 Reflection = normalize(reflect(-vec3(normalize(lightPosition-hitPos)),N));
+			vec4 Spec = Kspec*lightColor*pow(max(0.0, dot(vec3(normalize(camPos-hitPos)),Reflection)),shininess);
+			gl_FragColor = Kamb*lightColor+Diff+Spec;
+		}
+    </script>
+</head>
+
+<body onload="init();">
+    <div id="info">
+        <h2>TP6</h2>
+        <label id="by">Par:</label> <label id="auteur">Dmitri Azimov</label>
+    </div>
+    <div id="main-div">
+        <canvas id="can" width=600 height=600>Your browser doesn't seem to support canvas!</canvas>
+        <table>
+        <tr><td>LightPosX:</td><td><input id="sliderX" type="range" min="-100" max="100" value="0" step="1" oninput='app.LightPosX=this.value; document.getElementById("valueX").innerHTML=" "+this.value;'></td><td><label id="valueX">0</label></td></tr>
+        <tr><td>LightPosY:</td><td><input id="sliderY" type="range" min="-100" max="100" value="0" step="1" oninput='app.LightPosY=this.value; document.getElementById("valueY").innerHTML=" "+this.value;'></td><td><label id="valueY">0</label></td></tr>
+        <tr><td>LightPosZ:</td><td><input id="sliderZ" type="range" min="-100" max="100" value="0" step="1" oninput='app.LightPosZ=this.value; document.getElementById("valueZ").innerHTML=" "+this.value;'></td><td><label id="valueZ">0</label></td></tr>
+        <tr><td>Shininess:</td><td><input id="sliderS" type="range" min="1" max="300" value="1" step="1" oninput='app.shininess=this.value; document.getElementById("valueS").innerHTML=" "+this.value;'></td><td><label id="valueS">1</label></td></tr>
+        </table>
+    </div>
+</body>
+</html>
